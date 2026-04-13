@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="es" class="h-full">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script src="https://cdn.tailwindcss.com/3.4.17"></script>
+<script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
+
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        wine: '#7A1A2E',
+        'wine-light': '#9B2545',
+        charcoal: '#1A1A1A',
+        'charcoal-light': '#2A2A2A',
+        cream: '#F5E6D3'
+      }
+    }
+  }
+}
+</script>
+
+<style>
+body { box-sizing: border-box; }
+.fade-up { animation: fadeUp .4s ease both }
+@keyframes fadeUp { from { opacity:0; transform:translateY(12px) } to { opacity:1; transform:translateY(0) } }
+</style>
+
+</head>
+
+<body class="h-full bg-charcoal text-cream">
+
+<div class="max-w-3xl mx-auto p-4">
+
+<h1 class="text-3xl text-center mb-6">MÄLEN GOURMET 🍣</h1>
+
+<div id="menu"></div>
+
+<h2 class="mt-6 text-xl">Tu Pedido</h2>
+<div id="pedido"></div>
+
+<h2 id="total" class="mt-4 text-2xl">Total: $0</h2>
+
+<button onclick="enviar()" class="mt-4 w-full bg-wine p-3 rounded-xl">
+Enviar pedido por WhatsApp
+</button>
+
+</div>
+
+<script>
+const menu = [
+  {name:"Box Salmón 15p",price:32000},
+  {name:"Box Salmón 30p",price:55000},
+  {name:"Box Especial 15p",price:31000},
+  {name:"Box Especial 30p",price:52000},
+  {name:"Box Lanikama 30p",price:50000},
+  {name:"Box Cocido",price:55000},
+  {name:"Box Premium",price:60000},
+  {name:"Rolls x8",price:18000},
+  {name:"Gohan",price:20000},
+  {name:"Langostinos",price:14000},
+  {name:"Arrolladitos",price:9000},
+  {name:"Ceviche chico",price:15000},
+  {name:"Ceviche grande",price:22000},
+  {name:"Teriyaki",price:4000},
+  {name:"Salsa BsAs",price:3500},
+];
+
+let pedido = [];
+let total = 0;
+
+function renderMenu(){
+  const cont = document.getElementById("menu");
+  menu.forEach(item=>{
+    cont.innerHTML += `
+      <div class="flex justify-between mb-2">
+        <span>${item.name} - $${item.price}</span>
+        <button onclick="agregar('${item.name}',${item.price})">+</button>
+      </div>
+    `;
+  });
+}
+
+function agregar(nombre,precio){
+  pedido.push({nombre,precio});
+  total += precio;
+  actualizar();
+}
+
+function actualizar(){
+  const lista = document.getElementById("pedido");
+  lista.innerHTML = pedido.map(p=>`<div>${p.nombre}</div>`).join("");
+  document.getElementById("total").innerText = "Total: $" + total.toLocaleString();
+}
+
+function enviar(){
+  if(pedido.length==0){
+    alert("Agregá productos");
+    return;
+  }
+
+  let mensaje = "Hola! Quiero pedir:\n\n";
+
+  pedido.forEach(p=>{
+    mensaje += "- " + p.nombre + "\n";
+  });
+
+  mensaje += "\nTotal: $" + total.toLocaleString();
+
+  window.open("https://wa.me/5492964568891?text=" + encodeURIComponent(mensaje));
+}
+
+renderMenu();
+</script>
+
+</body>
+</html>
