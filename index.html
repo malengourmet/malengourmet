@@ -1,118 +1,204 @@
 <!doctype html>
-<html lang="es" class="h-full">
+<html lang="es">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<script src="https://cdn.tailwindcss.com/3.4.17"></script>
-<script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
-
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-
-<script>
-tailwind.config = {
-  theme: {
-    extend: {
-      colors: {
-        wine: '#7A1A2E',
-        'wine-light': '#9B2545',
-        charcoal: '#1A1A1A',
-        'charcoal-light': '#2A2A2A',
-        cream: '#F5E6D3'
-      }
-    }
-  }
-}
-</script>
+<title>MÄLEN GOURMET</title>
 
 <style>
-body { box-sizing: border-box; }
-.fade-up { animation: fadeUp .4s ease both }
-@keyframes fadeUp { from { opacity:0; transform:translateY(12px) } to { opacity:1; transform:translateY(0) } }
-</style>
+body {
+  background: #0b0b0b;
+  color: #f5e6d3;
+  font-family: 'Segoe UI', sans-serif;
+  max-width: 700px;
+  margin: auto;
+  padding: 20px;
+}
 
+h1 {
+  text-align: center;
+  color: #8b0000;
+  letter-spacing: 2px;
+}
+
+.section {
+  margin-top: 30px;
+}
+
+.section h2 {
+  color: #9b2545;
+  border-bottom: 1px solid #9b2545;
+  padding-bottom: 5px;
+}
+
+.item {
+  background: #1a1a1a;
+  border: 1px solid #7a1a2e;
+  padding: 12px;
+  margin: 10px 0;
+  border-radius: 12px;
+}
+
+.desc {
+  font-size: 12px;
+  color: #aaa;
+  margin-bottom: 5px;
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+button {
+  background: #7a1a2e;
+  border: none;
+  color: white;
+  padding: 6px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #9b2545;
+}
+
+.qty {
+  min-width: 20px;
+  text-align: center;
+}
+
+#carrito {
+  margin-top: 30px;
+  padding: 15px;
+  border: 1px solid #7a1a2e;
+  border-radius: 12px;
+  background: #111;
+}
+
+#total {
+  font-size: 24px;
+  margin-top: 10px;
+}
+
+.whatsapp {
+  width: 100%;
+  margin-top: 10px;
+  padding: 12px;
+  background: #25D366;
+  font-weight: bold;
+}
+</style>
 </head>
 
-<body class="h-full bg-charcoal text-cream">
+<body>
 
-<div class="max-w-3xl mx-auto p-4">
-
-<h1 class="text-3xl text-center mb-6">MÄLEN GOURMET 🍣</h1>
+<h1>MÄLEN GOURMET 🍣</h1>
 
 <div id="menu"></div>
 
-<h2 class="mt-6 text-xl">Tu Pedido</h2>
-<div id="pedido"></div>
-
-<h2 id="total" class="mt-4 text-2xl">Total: $0</h2>
-
-<button onclick="enviar()" class="mt-4 w-full bg-wine p-3 rounded-xl">
-Enviar pedido por WhatsApp
-</button>
-
+<div id="carrito">
+<h2>🛒 Tu Pedido</h2>
+<div id="lista"></div>
+<div id="total">Total: $0</div>
+<button class="whatsapp" onclick="enviar()">Enviar por WhatsApp</button>
 </div>
 
 <script>
-const menu = [
-  {name:"Box Salmón 15p",price:32000},
-  {name:"Box Salmón 30p",price:55000},
-  {name:"Box Especial 15p",price:31000},
-  {name:"Box Especial 30p",price:52000},
-  {name:"Box Lanikama 30p",price:50000},
-  {name:"Box Cocido",price:55000},
-  {name:"Box Premium",price:60000},
-  {name:"Rolls x8",price:18000},
-  {name:"Gohan",price:20000},
-  {name:"Langostinos",price:14000},
-  {name:"Arrolladitos",price:9000},
-  {name:"Ceviche chico",price:15000},
-  {name:"Ceviche grande",price:22000},
-  {name:"Teriyaki",price:4000},
-  {name:"Salsa BsAs",price:3500},
+const productos = [
+{cat:"BOXES", items:[
+{n:"Box Salmón 15p",d:"BSAS, SPF, TAMAGO, PHILADELPHIA, PEP, GEISHA",p:32000},
+{n:"Box Salmón 30p",d:"BSAS, SPF, TAMAGO, PHILADELPHIA, PEP, GEISHA",p:55000},
+{n:"Box Especial 15p",d:"TAMAGO, SPF, MANGO, PEP, TAMIKAMA, KANI",p:31000},
+{n:"Box Especial 30p",d:"TAMAGO, SPF, MANGO, PEP, TAMIKAMA, KANI",p:52000},
+{n:"Box Lanikama 15p",d:"CITRIC, MANGO, HOT SHRIMP, KANI, TAMIKAMA",p:28000},
+{n:"Box Lanikama 30p",d:"CITRIC, MANGO, HOT SHRIMP, KANI, TAMIKAMA",p:50000},
+{n:"Box Cocido",d:"SPF APANADO, CEVICHE, HOT SHRIMP, CITRIC, MANGO, TAMIKAMA",p:55000},
+{n:"Box Premium",d:"CEVICHE, LOI, TIGER, NIGUIRI SALMON, MANGO, DRAGON",p:60000},
+{n:"Rolls x8",d:"",p:18000},
+{n:"Gohan",d:"Mixta / Salmón / Langostino / Veggie",p:20000},
+]},
+{cat:"ENTRADAS", items:[
+{n:"Langostinos apanados",p:14000},
+{n:"Arrolladitos",p:9000},
+{n:"Ceviche chico",p:15000},
+{n:"Ceviche grande",p:22000},
+]},
+{cat:"EXTRAS", items:[
+{n:"Salsa Teriyaki",p:4000},
+{n:"Salsa Buenos Aires",p:3500},
+]}
 ];
 
-let pedido = [];
-let total = 0;
+let carrito = {};
 
 function renderMenu(){
-  const cont = document.getElementById("menu");
-  menu.forEach(item=>{
-    cont.innerHTML += `
-      <div class="flex justify-between mb-2">
-        <span>${item.name} - $${item.price}</span>
-        <button onclick="agregar('${item.name}',${item.price})">+</button>
-      </div>
-    `;
-  });
+let html = "";
+productos.forEach(sec=>{
+html += `<div class="section"><h2>${sec.cat}</h2>`;
+sec.items.forEach(i=>{
+html += `
+<div class="item">
+<b>${i.n}</b>
+<div class="desc">${i.d || ""}</div>
+
+<div class="controls">
+<button onclick="cambiar('${i.n}',${i.p},-1)">-</button>
+<span class="qty" id="q-${i.n}">0</span>
+<button onclick="cambiar('${i.n}',${i.p},1)">+</button>
+<span>$${i.p.toLocaleString()}</span>
+</div>
+
+</div>`;
+});
+html += "</div>";
+});
+document.getElementById("menu").innerHTML = html;
 }
 
-function agregar(nombre,precio){
-  pedido.push({nombre,precio});
-  total += precio;
-  actualizar();
+function cambiar(n,p,c){
+if(!carrito[n]) carrito[n]={n,p,q:0};
+carrito[n].q += c;
+if(carrito[n].q<=0) delete carrito[n];
+
+document.getElementById("q-"+n).innerText = carrito[n]?.q || 0;
+
+renderCarrito();
 }
 
-function actualizar(){
-  const lista = document.getElementById("pedido");
-  lista.innerHTML = pedido.map(p=>`<div>${p.nombre}</div>`).join("");
-  document.getElementById("total").innerText = "Total: $" + total.toLocaleString();
+function renderCarrito(){
+let lista = "";
+let total = 0;
+
+Object.values(carrito).forEach(i=>{
+lista += `<div>${i.q}x ${i.n}</div>`;
+total += i.q * i.p;
+});
+
+document.getElementById("lista").innerHTML = lista || "Sin productos";
+document.getElementById("total").innerText = "Total: $" + total.toLocaleString();
 }
 
 function enviar(){
-  if(pedido.length==0){
-    alert("Agregá productos");
-    return;
-  }
+let items = Object.values(carrito);
+if(!items.length){
+alert("Agregá productos");
+return;
+}
 
-  let mensaje = "Hola! Quiero pedir:\n\n";
+let msg = "Hola! Quiero pedir:\n\n";
+let total = 0;
 
-  pedido.forEach(p=>{
-    mensaje += "- " + p.nombre + "\n";
-  });
+items.forEach(i=>{
+msg += `- ${i.q}x ${i.n}\n`;
+total += i.q * i.p;
+});
 
-  mensaje += "\nTotal: $" + total.toLocaleString();
+msg += "\nTotal: $" + total.toLocaleString();
 
-  window.open("https://wa.me/5492964568891?text=" + encodeURIComponent(mensaje));
+window.open("https://wa.me/5492964568891?text=" + encodeURIComponent(msg));
 }
 
 renderMenu();
